@@ -1,0 +1,10 @@
+*.pyc
+.DS_Store
+.vscode/
+runs/
+tb_logs/
+tmp_tractogram_filtering*/
+*.ipynb_checkpoints/
+data/hcp_extractor/
+**/__pycache__/
+**/embeddings/

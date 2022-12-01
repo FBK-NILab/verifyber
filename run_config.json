@@ -1,0 +1,10 @@
+{
+    "trk": "data/sub-510225_1k-streams.trk",
+    "t1": "data/sub-510225_T1w_spacedwi.nii.gz",
+    "fa": "",
+    "resample_points": true,
+    "task": "classification",
+    "return_trk": true,
+    "warp": "fast",
+    "model": "sdec_extractor"
+}

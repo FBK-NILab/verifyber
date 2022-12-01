@@ -1,0 +1,15 @@
+acc
+0.957783
+nan
+prec
+0.964559
+nan
+recall
+0.970351
+nan
+dsc
+0.967446
+nan
+iou
+0.936945
+nan

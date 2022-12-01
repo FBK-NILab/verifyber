@@ -1,0 +1,86 @@
+[DEFAULT]
+########### model ###########
+model = sdec
+batch_norm = y
+dropout = n
+spatial_tn = n
+knngraph = 5
+k = 5
+pool_op = max
+
+########## training ###########
+n_epochs = 1000
+
+optimizer = adam
+accumulation_interval = n
+lr_type = step
+learning_rate = 1e-3
+min_lr = 5e-5
+lr_ep_step = 90
+lr_gamma = 0.7
+momentum = 0.9
+patience = 100
+
+weight_decay = 5e-4
+weight_init = n
+
+bn_decay = n
+bn_decay_init = 0.5
+bn_decay_step = 90
+bn_decay_gamma = 0.5
+
+########## loss ###########
+loss = nll
+nll_w = n
+
+########### general ###########
+val_in_train = y
+val_freq = 20
+
+n_workers = 6
+
+model_dir = models
+save_model = y
+save_pred = n
+
+seed = 10
+
+########### logging ###########
+verbose = n
+print_bwgraph = n
+
+####### ************************************************************************
+####### ************************************************************************
+####### ************************************************************************
+
+[ZHANGATLAS]
+task = classification
+########### data ###########
+dataset = atlasparts
+dataset_dir = /home/pietro/datasets/dsl_dataset/derivatives/zhang_split_all_clusters_trk_10_resampled-16
+data_name = zhang_all_clusters_merged
+labels_dir = home/pietro/datasets/dsl_dataset/derivatives/zhang_split_all_clusters_trk_10_resampled-16
+labels_name = zhang_all_clusters_binary_merged_lbls
+part_list = /home/pietro/datasets/dsl_dataset/doc/part_list_ZHANG 
+fixed_size = 8000
+sub_list_train = data/sub_list_ZHANG_train.txt
+sub_list_val = data/sub_list_ZHANG_val.txt
+sub_list_test = data/sub_list_ZHANG_test.txt
+data_dim = 3
+embedding_size = 40
+fold_size = 2
+return_edges = y
+
+
+############ transforms ###########
+batch_size = 2
+repeat_sampling = 3
+shuffling = y
+rnd_sampling = y
+standardization = n
+centering = n
+n_classes = 2
+ignore_class = 0
+same_size = y
+
+experiment_name = sdec_zhang_all
