@@ -40,6 +40,8 @@ from utils.model_utils import get_model
 #     'cuda' if torch.cuda.is_available() else 'cpu')
 
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+VERIFYBER_DEFAULT_CONFIG = 'VERIFYBER_DEFAULT_CONFIG'
+VERIFYBER_OUTPUT_DIR = 'VERIFYBER_OUTPUT_DIR'
 
 SEED = 10
 
@@ -50,10 +52,13 @@ rs = np.random.RandomState(SEED)
 torch.manual_seed(SEED)
 torch.cuda.manual_seed(SEED)
 torch.backends.cudnn.benchmark = False
-try:
-    torch.use_deterministic_algorithms(True)
-except:
-    torch.backends.cudnn.deterministic = True
+# There are some operations that are not deterministic in this Pytorch version.
+# Uncommenting this might result in a crash. Commenting it out for now, as reproducibility
+# is not critical.
+# try:
+#     torch.use_deterministic_algorithms(True)
+# except:
+#     torch.backends.cudnn.deterministic = True
 os.environ['CUBLAS_WORKSPACE_CONFIG'] = ':4096:8' # see https://docs.nvidia.com/cuda/cublas/index.html#cublasApi_reproducibility
 
 
@@ -235,9 +240,10 @@ def get_sample(data):
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
+    default_config=os.getenv(VERIFYBER_DEFAULT_CONFIG, f'{script_dir}/run_config.json')
     parser.add_argument('-config',
                         nargs='?',
-                        default=f'{script_dir}/run_config.json',
+                        default=default_config,
                         help='The tag for the configuration file.')
     args = parser.parse_args()
 
@@ -406,7 +412,12 @@ if __name__ == '__main__':
             prog_bar.close()
 
         ## save predictions
-        out_dir = f'{tmp_dir}/output'
+        out_dir = os.getenv(VERIFYBER_OUTPUT_DIR)
+        if out_dir is not None:
+            print(f'output directory set to {out_dir} (from env var {VERIFYBER_OUTPUT_DIR})')
+        else:
+            out_dir = f'{tmp_dir}/output'
+        
         if not osp.exists(out_dir):
             os.makedirs(out_dir)
 
@@ -422,7 +433,7 @@ if __name__ == '__main__':
                 hdr = nib.streamlines.load(cfg['trk'], lazy_load=True).header
                 streams, lengths = load_streamlines_fast(cfg['trk'], container='array_flat')
                 streamlines = np.split(streams, np.cumsum(lengths[:-1]))
-                streamlines = np.array(streamlines, dtype=np.object)[idxs_P]
+                streamlines = np.array(streamlines, dtype=object)[idxs_P]
                 out_t = nib.streamlines.Tractogram(streamlines,
                                                    affine_to_rasmm=np.eye(4))
                 out_t_name = osbn(cfg['trk'])[:-4] + '_filtered.trk'

@@ -270,4 +270,4 @@ def load_selected_streamlines_uniform_size_seq(trk_fn,
 def fast_load_streamlines(trk_fn):
     streams, lengths = load_selected_streamlines(trk_fn)
     streamlines = np.split(streams, np.cumsum(lengths[:-1]))
-    return np.array(streamlines, dtype=np.object)
+    return np.array(streamlines, dtype=object)

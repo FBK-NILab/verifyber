@@ -23,8 +23,10 @@ The output are two text files containing the indexes of plausible and non-plausi
 - `model`: defalut = "sdec_extractor", choices are the names of the folder present in checkpoints/
 
 ## Usage
-1. setup your env follwing instructions in [verifyber_updated_env.txt](verifyber_updated_env.txt)
-2. run `tractogram_filtering.py -config <run_config.json>`
+1. Setup your env follwing instructions in [verifyber_updated_env.txt](verifyber_updated_env.txt)
+2. Run `tractogram_filtering.py -config <run_config.json>`
 
 ## Docker containers 
-See docker://pietroastolfi/tractogram-filtering:<tag>, <tag>=cpu|gpu. Note that the gpu container works with CUDA 10
+1. Install the NVIDIA container toolkit (so the containers can have access to the GPU): https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html#
+2. (Optional) Build the container: `docker build -t mrzarfir/verifyber .`
+3. Run the container: `sudo ./verifyber <config_file | json> <output_dir> [<container_name (default mrzarfir/verifyber)>]`

@@ -1,6 +1,7 @@
 conda install pytorch==1.12.1 torchvision==0.13.1 cudatoolkit=11.3 -c pytorch
 conda install pyg=*=*cu* -c pyg
+conda install pytorch-cluster -c pyg
 conda install mrtrix3=3.0 -c mrtrix3
-pip install antspyx==0.3.4 dipy==1.5.0 torchviz 
+pip install antspyx==0.4.2 dipy==1.7.0 torchviz
 [optional] pip install numba tensorboard
 

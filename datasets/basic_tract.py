@@ -36,7 +36,7 @@ class TractDataset(gDataset):
 
             self.L_mem = L
             self.T_mem = np.array(np.split(T, L.cumsum()[:-1], axis=0),
-                             dtype=np.object)
+                             dtype=object)
 
     def __len__(self):
         return 1

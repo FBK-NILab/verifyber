@@ -164,7 +164,7 @@ def load_streamlines(trk_fn,
         lengths[:] = resample
 
     if container == 'array':
-        streamlines = np.array(streamlines, dtype=np.object)
+        streamlines = np.array(streamlines, dtype=object)
     elif container == 'ArraySequence':
         streamlines = nib.streamlines.ArraySequence(streamlines)
     elif container == 'list':

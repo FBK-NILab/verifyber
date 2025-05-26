@@ -1,0 +1,40 @@
+#!/bin/bash
+set -e
+
+config_file=$1
+out_dir=$2
+container_name=$3
+
+if [ -z ${config_file} ] || [ -z ${out_dir} ]; then
+    echo "Usage: $0 <config_file> <out_dir> [<container_name (default: mrzarfir/verifyber)]>]"
+	exit 1
+fi
+
+if [ ! -f ${config_file} ]; then
+	echo "Config file ${config_file} does not exist."
+	exit 1
+fi
+
+config_file=$(realpath ${config_file})
+out_dir=$(realpath ${out_dir})
+container_name=${container_name:-mrzarfir/verifyber}
+
+echo "=========================================="
+echo "Running Verifyber"
+echo " ↳ Container: ${container_name}"
+echo " ↳ Config file: ${config_file}"
+echo " ↳ Output directory: ${out_dir}"
+echo "========================================="
+
+# Make sure the output directory exists
+mkdir -p ${out_dir}
+
+docker run --gpus=all \
+	-v ${config_file}:/app/run_config_file.json \
+	-v ${out_dir}:/app/output \
+	-t ${container_name}
+
+echo "=========================================="
+echo "Done. Results are in:"
+echo " ↳ ${out_dir}"
+echo "========================================="
